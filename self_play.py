@@ -15,7 +15,7 @@ import pickle
 import os
 
 # 파라미터 준비
-SP_GAME_COUNT = 10  # 셀프 플레이를 수행할 게임 수(오리지널: 25,000)
+SP_GAME_COUNT = 1  # 셀프 플레이를 수행할 게임 수(오리지널: 25,000)
 SP_TEMPERATURE = 1.0  # 볼츠만 분포의 온도 파라미터
 
 
@@ -58,7 +58,7 @@ def play(model):
         policies = [0] * DN_OUTPUT_SIZE
         for action, policy in zip(state.legal_actions(), scores):
             policies[action] = policy
-        history.append([[state.pieces, state.enemy_pieces], policies, None])
+        history.append([[state.pieces, state.enemy_pieces, state.obstacle_pieces], policies, None])
 
         # 행동 얻기
         action = np.random.choice(state.legal_actions(), p=scores)
