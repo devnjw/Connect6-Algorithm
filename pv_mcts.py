@@ -86,9 +86,8 @@ def pv_mcts_scores(model, state, temperature):
             # 자녀 노드가 존재하는 경우
             else:
                 # 아크 평갓값이 가장 큰 자녀 노드를 평가해 가치 얻기
-                value = (-1)*(self.isSecond)*self.next_child_node().evaluate()
-
-                value = -self.next_child_node().evaluate()
+                value = (-1) * (self.isSecond) * self.next_child_node().evaluate()
+                #value = (-1) * self.next_child_node().evaluate()
 
                 # 누계 가치와 시행 횟수 갱신
                 self.w += value

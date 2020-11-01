@@ -12,7 +12,7 @@ import numpy as np
 import pickle
 
 # 파라미터 준비
-RN_EPOCHS = 100  # 학습 횟수
+RN_EPOCHS = 70  # 학습 횟수
 
 
 # 학습 데이터 로드
