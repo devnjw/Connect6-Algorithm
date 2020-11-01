@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 
 # 파라미터 준비
-PV_EVALUATE_COUNT = 50  # 추론 1회당 시뮬레이션 횟수(오리지널: 1600회)
+PV_EVALUATE_COUNT = 200  # 추론 1회당 시뮬레이션 횟수(오리지널: 1600회)
 
 
 # 추론
@@ -20,8 +20,6 @@ def predict(model, state):
     # DN_INPUT_SHAPE = (19, 19, 3)  # 입력 셰이프
     a, b, c = DN_INPUT_SHAPE
     x = np.array([state.pieces, state.enemy_pieces, state.obstacle_pieces])
-    #print("X1")
-    #print(x)
     x = x.reshape(c, a, b).transpose(1, 2, 0).reshape(1, a, b, c)
 
     # 추론
@@ -50,12 +48,13 @@ def pv_mcts_scores(model, state, temperature):
     # 몬테카를로 트리 탐색 노드 정의
     class Node:
         # 노드 초기화
-        def __init__(self, state, p):
+        def __init__(self, state, p, isSecond):
             self.state = state  # 상태
             self.p = p  # 정책
             self.w = 0  # 가치 누계
             self.n = 0  # 시행 횟수
             self.child_nodes = None  # 子ノード群
+            self.isSecond = isSecond
 
         # 국면 가치 누계
         def evaluate(self):
@@ -81,12 +80,14 @@ def pv_mcts_scores(model, state, temperature):
                 # 자녀 노드 전개
                 self.child_nodes = []
                 for action, policy in zip(self.state.legal_actions(), policies):
-                    self.child_nodes.append(Node(self.state.next(action), policy))
+                    self.child_nodes.append(Node(self.state.next(action), policy, -self.isSecond))
                 return value
 
-            # 자녀 노드가 존재하지 않는 경우
+            # 자녀 노드가 존재하는 경우
             else:
                 # 아크 평갓값이 가장 큰 자녀 노드를 평가해 가치 얻기
+                value = (-1)*(self.isSecond)*self.next_child_node().evaluate()
+
                 value = -self.next_child_node().evaluate()
 
                 # 누계 가치와 시행 횟수 갱신
@@ -108,7 +109,7 @@ def pv_mcts_scores(model, state, temperature):
             return self.child_nodes[np.argmax(pucb_values)]
 
     # 현재 국면의 노드 생성
-    root_node = Node(state, 0)
+    root_node = Node(state, 0, 1)
 
     # 여러 차례 평가 실행
     for _ in range(PV_EVALUATE_COUNT):

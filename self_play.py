@@ -15,7 +15,7 @@ import pickle
 import os
 
 # 파라미터 준비
-SP_GAME_COUNT = 100  # 셀프 플레이를 수행할 게임 수(오리지널: 25,000)
+SP_GAME_COUNT = 1000  # 셀프 플레이를 수행할 게임 수(오리지널: 25,000)
 SP_TEMPERATURE = 1.0  # 볼츠만 분포의 온도 파라미터
 
 
@@ -44,6 +44,7 @@ def play(model):
 
     # 상태 생성
     state = State()
+    state = state.put_center()
     state = state.put_obstacles()
 
     while True:

@@ -17,6 +17,11 @@ class State:
         self.enemy_pieces = enemy_pieces if enemy_pieces != None else [0] * (361)
         self.obstacle_pieces = obstacle_pieces if obstacle_pieces != None else [0] * (361)
 
+    def put_center(self):
+        pieces = self.pieces.copy()
+        pieces[180] = 1
+        return State(pieces, self.enemy_pieces, self.obstacle_pieces)
+
     # 돌의 수 얻기
     def piece_count(self, pieces):
         count = 0
@@ -54,7 +59,7 @@ class State:
 
     def put_obstacles(self):
         obstacle_pieces = self.obstacle_pieces.copy()
-        for _ in range(6):
+        for _ in range(5):
             action = np.random.choice(self.legal_actions())
             obstacle_pieces[action] = 1
 
@@ -117,6 +122,8 @@ def random_action(state):
 if __name__ == '__main__':
     # 상태 생성
     state = State()
+    state = state.put_center()
+    state = state.put_obstacles()
 
     # 게임 종료 시까지 반복
     while True:
