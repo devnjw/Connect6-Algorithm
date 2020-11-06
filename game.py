@@ -16,6 +16,8 @@ class State:
         self.pieces = pieces if pieces != None else [0] * (361)
         self.enemy_pieces = enemy_pieces if enemy_pieces != None else [0] * (361)
         self.obstacle_pieces = obstacle_pieces if obstacle_pieces != None else [0] * (361)
+
+
         self.isFive = isFive if isFive != None else [0] * (3) # isFive, next action 1, next action 2
 
         self.legal_area = legal_area if legal_area != None else [0] * (361)
@@ -40,6 +42,7 @@ class State:
         last_two = self.last_two.copy()
         x1, y1 = last_two[0]%19, last_two[0]//19
         x2, y2 = last_two[1]%19, last_two[1]//19
+
 
 
         return False
@@ -120,9 +123,9 @@ class State:
 
         pieces[action] = 1
 
-        total_num_piece = self.piece_count(self.pieces) + self.piece_count(self.enemy_pieces)
+        total_num_piece = self.piece_count(pieces) + self.piece_count(self.enemy_pieces)
 
-        if total_num_piece % 4 == 0 or total_num_piece % 4 == 2:
+        if total_num_piece % 2 == 1:
             return State(self.enemy_pieces, pieces, self.obstacle_pieces, legal_area, last_two)
         else:
             return State(pieces, self.enemy_pieces, self.obstacle_pieces, legal_area, last_two)

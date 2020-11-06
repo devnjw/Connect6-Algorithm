@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np
 
 # 파라미터 준비
-PV_EVALUATE_COUNT = 30  # 추론 1회당 시뮬레이션 횟수(오리지널: 1600회)
+PV_EVALUATE_COUNT = 15  # 추론 1회당 시뮬레이션 횟수(오리지널: 1600회)
 
 
 # 추론
