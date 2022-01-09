@@ -8,6 +8,6 @@
 
 ### Contributors
 
-[devnjw](https://github.com/devnjw)
-[junhyung9985](https://github.com/junhyung9985)
-[1nhee](https://github.com/1nhee)
+[devnjw](https://github.com/devnjw)<br>
+[junhyung9985](https://github.com/junhyung9985)<br>
+[1nhee](https://github.com/1nhee)<br>
